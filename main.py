@@ -10,7 +10,6 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column,
 from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-# Import your forms from the forms.py
 from forms import RegisterForm, LoginForm, CreatePostForm, CommentForm
 from dotenv import load_dotenv
 import os
@@ -82,7 +81,7 @@ def admin_only(func):
             flask.abort(403)
     return wrapper
 
-# TODO: Use Werkzeug to hash the user's password when creating a new user.
+# Use Werkzeug to hash the user's password when creating a new user.
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
