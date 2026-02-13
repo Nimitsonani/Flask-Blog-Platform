@@ -1,61 +1,81 @@
 # Flask Blog Platform
 
-A blog platform built with Flask, supporting user authentication with Flask-Login, session management, admin-controlled post management, and a relational database powered by SQLAlchemy and SQLite.
+A blog platform built with Flask, supporting authentication, role-based admin control, commenting, and relational database management using SQLAlchemy.
 
 ---
 
 ## Features
 
 ### User Authentication
-- User registration and login  
-- Password hashing using Werkzeug  
-- Session handling with Flask-Login  
-- Protected routes for logged-in users  
+- User registration and login
+- Secure password hashing using Werkzeug
+- Session management with Flask-Login
+- Protected routes for authenticated users
 
 ### Admin System
-- The first registered user (ID = 1) is treated as the admin  
-- The admin can:
-  - Create new blog posts  
-  - Edit existing posts  
-  - Delete posts  
-- Admin-only buttons (such as "New Post", "Edit", and delete options) are visible only to the admin user  
+- The first registered user (ID = 1) becomes the Admin
+- Admin can:
+  - Create new blog posts
+  - Edit existing posts
+  - Delete posts
+- Admin-only buttons are conditionally displayed in the UI
 
 ### Comment System
-- Only logged-in users can leave comments  
-- Comments are linked to specific posts  
-- Each comment is associated with the user who posted it  
+- Only logged-in users can post comments
+- Comments are linked to specific posts
+- Each comment is associated with the user who posted it
+- User profile image is displayed via Gravatar
 
 ### Gravatar Integration
-- Each user’s email is used to generate a Gravatar profile image  
-- Gravatar provides a unique avatar image based on the user’s email  
-- The profile image is automatically displayed next to each comment  
+- Email-based avatar generation
+- Unique profile image automatically displayed next to comments
 
 ### Database
-- Built using SQLAlchemy ORM  
-- SQLite used for storage  
-- Relational database structure between Users, Posts, and Comments  
+- SQLAlchemy ORM
+- SQLite database
+- Relational structure between Users, Posts, and Comments
 
 ---
 
 ## Tech Stack
 
-- Flask  
-- Flask-Login  
-- Flask-WTF  
-- Flask-Bootstrap5  
-- SQLAlchemy  
-- SQLite  
-- Bootstrap  
-- Jinja2  
+- Flask
+- Flask-Login
+- Flask-WTF
+- Flask-Bootstrap5
+- SQLAlchemy
+- SQLite
+- Jinja2
+- Bootstrap
+
+---
+
+## Environment Variables
+
+This project uses environment variables for configuration.
+
+Create a `.env` file in the root directory of the project with the following:
+
+```
+SECRET_KEY=your_secret_key_here
+DB_URI=sqlite:///posts.db
+```
+
+### What to Add
+
+- SECRET_KEY → A random secure string used for session security  
+- DB_URI → Database connection string (default uses SQLite)
 
 ---
 
 ## Project Structure
 
-- `main.py` – Routes and application logic  
-- `forms.py` – Form definitions  
-- `templates/` – HTML templates  
-- `static/` – CSS and assets  
+```
+main.py        # Application routes and logic
+forms.py       # Form definitions
+templates/     # HTML templates
+static/        # CSS and assets
+```
 
 ---
 
@@ -63,38 +83,42 @@ A blog platform built with Flask, supporting user authentication with Flask-Logi
 
 ### Home Page
 
-<img width="1902" height="882" alt="Home Page" src="https://github.com/user-attachments/assets/4e492c31-231a-4793-8002-3d9a9384db5d" />
+<img width="1902" height="882" src="https://github.com/user-attachments/assets/4e492c31-231a-4793-8002-3d9a9384db5d" />
 
 ### Admin View
 
-<img width="1895" height="879" alt="Admin View" src="https://github.com/user-attachments/assets/0510c664-39e7-4775-a2ee-d222da94c519" />
+<img width="1895" height="879" src="https://github.com/user-attachments/assets/0510c664-39e7-4775-a2ee-d222da94c519" />
 
-### Gravatar Profile Picture in Comments
+### Comment Section with Gravatar
 
-<img width="1893" height="462" alt="Gravatar Comment Section" src="https://github.com/user-attachments/assets/4482c1db-c93c-4cec-aa38-bf36d095387a" />
-
----
-## How It Works
-
-- The first registered user automatically becomes the admin (ID = 1).
-- Only the admin can see and use post management buttons.
-- Regular users can register, log in, and comment on posts.
-- If a user is not logged in, they cannot leave comments.
-- Passwords are stored securely in hashed format.
-- All data is stored in a relational SQLite database.
+<img width="1893" height="462" src="https://github.com/user-attachments/assets/4482c1db-c93c-4cec-aa38-bf36d095387a" />
 
 ---
 
-## Run the Project
+## Setup Instructions
 
-Install dependencies:
 
-```bash
+1. Install dependencies
+
+```
 pip install -r requirements.txt
 ```
 
-Run the application:
+2. Create `.env` file and add required variables (see above)
 
-```bash
+3. Run the application
+
+```
 python main.py
 ```
+
+---
+
+## How It Works
+
+- The first registered user automatically becomes Admin.
+- Admin can manage posts.
+- Regular users can register, log in, and comment.
+- Non-logged-in users cannot comment.
+- Passwords are securely hashed.
+- Data is stored in a relational SQLite database.
