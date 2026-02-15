@@ -1,81 +1,104 @@
 # Flask Blog Platform
 
-A blog platform built with Flask, supporting authentication, role-based admin control, commenting, and relational database management using SQLAlchemy.
+This is a full-stack blog application built with Flask.
+
+It includes user authentication, an admin-controlled content system, a comment feature, and a relational database structure using SQLAlchemy.
+
+The goal of this project was to build a complete CRUD-based web application with proper authentication and role control — not just static blog pages.
 
 ---
 
-## Features
+## What This Project Does
 
-### User Authentication
-- User registration and login
-- Secure password hashing using Werkzeug
-- Session management with Flask-Login
-- Protected routes for authenticated users
+Users can:
 
-### Admin System
-- The first registered user (ID = 1) becomes the Admin
-- Admin can:
-  - Create new blog posts
-  - Edit existing posts
-  - Delete posts
-- Admin-only buttons are conditionally displayed in the UI
+- Register and log in
+- View blog posts
+- Post comments (only if authenticated)
+
+The first registered user automatically becomes the Admin.
+
+The Admin can:
+
+- Create new blog posts
+- Edit existing posts
+- Delete posts
+
+Regular users cannot modify posts — they can only comment.
+
+---
+
+## How It Works
+
+### Authentication
+
+- Users register with email and password
+- Passwords are hashed using Werkzeug
+- Flask-Login manages sessions
+- Protected routes ensure only authenticated users can access certain actions
+- Admin-only routes are restricted at the backend level
+
+The admin is determined simply by checking if `user.id == 1`.
+
+---
+
+### Blog Post Management
+
+Posts are stored in a relational database.
+
+Each post includes:
+
+- Title
+- Subtitle
+- Body content
+- Author relationship
+- Date
+
+CRUD operations are handled through Flask routes and SQLAlchemy models.
+
+Admin-only buttons are conditionally rendered in the templates.
+
+---
 
 ### Comment System
+
 - Only logged-in users can post comments
-- Comments are linked to specific posts
-- Each comment is associated with the user who posted it
-- User profile image is displayed via Gravatar
+- Each comment is linked to:
+  - A specific blog post
+  - The user who created it
+- Relationships are handled using SQLAlchemy ORM
+
+Non-authenticated users are redirected if they attempt to comment.
+
+---
 
 ### Gravatar Integration
-- Email-based avatar generation
-- Unique profile image automatically displayed next to comments
 
-### Database
-- SQLAlchemy ORM
-- SQLite database
-- Relational structure between Users, Posts, and Comments
+User profile images are generated automatically using Gravatar.
 
----
+The system hashes the user's email and retrieves the corresponding avatar image.
 
-## Tech Stack
-
-- Flask
-- Flask-Login
-- Flask-WTF
-- Flask-Bootstrap5
-- SQLAlchemy
-- SQLite
-- Jinja2
-- Bootstrap
+This avoids storing image files locally while still displaying user profile pictures.
 
 ---
 
-## Environment Variables
+## Database Design
 
-This project uses environment variables for configuration.
+The application uses SQLite with SQLAlchemy ORM.
 
-Create a `.env` file in the root directory of the project with the following:
+There are three main models:
 
-```
-SECRET_KEY=your_secret_key_here
-DB_URI=sqlite:///posts.db
-```
+- **User**
+- **BlogPost**
+- **Comment**
 
-### What to Add
+Relationships:
 
-- SECRET_KEY → A random secure string used for session security  
-- DB_URI → Database connection string (default uses SQLite)
+- One user → many posts
+- One user → many comments
+- One post → many comments
 
----
-
-## Project Structure
-
-```
-main.py        # Application routes and logic
-forms.py       # Form definitions
-templates/     # HTML templates
-static/        # CSS and assets
-```
+This structure ensures referential integrity and proper ownership mapping.
 
 ---
 
@@ -95,30 +118,60 @@ static/        # CSS and assets
 
 ---
 
-## Setup Instructions
+## Tech Stack
 
+- Flask
+- Flask-Login
+- Flask-WTF
+- Flask-Bootstrap5
+- SQLAlchemy
+- SQLite
+- Jinja2
+- Bootstrap
 
-1. Install dependencies
+---
+
+## Project Structure
+
+```
+main.py        # Application routes and logic
+forms.py       # Form definitions
+templates/     # HTML templates
+static/        # CSS and assets
+```
+
+---
+
+## Running Locally
+
+1. Install dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-2. Create `.env` file and add required variables (see above)
+2. Create a `.env` file in the root directory:
 
-3. Run the application
+```
+SECRET_KEY=your_secret_key_here
+DB_URI=sqlite:///posts.db
+```
+
+- `SECRET_KEY` is required for session security.
+- `DB_URI` defines the database connection (default uses SQLite).
+
+3. Run the application:
 
 ```
 python main.py
 ```
 
+The database will be created automatically if it does not exist.
+
 ---
 
-## How It Works
+## Notes
 
-- The first registered user automatically becomes Admin.
-- Admin can manage posts.
-- Regular users can register, log in, and comment.
-- Non-logged-in users cannot comment.
-- Passwords are securely hashed.
-- Data is stored in a relational SQLite database.
+- Passwords are never stored in plain text.
+- Admin control is enforced at the route level.
+- SQLite is used for simplicity, but the structure can be switched to PostgreSQL or MySQL with minimal changes.
