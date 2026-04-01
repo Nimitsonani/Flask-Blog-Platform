@@ -1,5 +1,7 @@
 # Flask Blog Platform
 
+🔗 Live Demo: https://nimit.pythonanywhere.com/
+
 This is a full-stack blog application built with Flask.
 
 It includes user authentication, an admin-controlled content system, a comment feature, and a relational database structure using SQLAlchemy.
